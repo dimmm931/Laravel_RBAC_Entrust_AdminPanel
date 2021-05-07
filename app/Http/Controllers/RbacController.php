@@ -31,22 +31,18 @@ class RbacController extends Controller
 		}
 		
 	    $userX = User::find( \Auth::user()->id ); //to pass to view, for checking with Blade
-	  
-		//$user = \App\User::find( \Auth::user()->id );
-		
+	  		
 		if(Auth::user()->hasRole('admin')){ //
-	        $rbacStatus = "You have RBAC Role Admin to view this page";
 			$status = true;
 			
         } else {
-			$rbacStatus = "You have NO RBAC Role Admin to view this page";
 			$status = false;
             //throw new \App\Exceptions\myException('You have No rbac rights');
 		}
 		
         $allUsers = User::all(); //find all users for table
 		$allRoles = Role::all(); //find all roles for dropdown
-	    return View::make('rbac.rbacView')->with(compact('rbacStatus', 'status', 'userX', 'allUsers', 'allRoles'));
+	    return View::make('rbac.rbacView')->with(compact('status', 'userX', 'allUsers', 'allRoles'));
 	}
 	
 	
@@ -104,7 +100,6 @@ class RbacController extends Controller
 		
 	}
 	
-	//STOPPED tabbing HERE !!!!!!!!!!!!!!!!!
 	
 	
 	/**
@@ -142,7 +137,6 @@ class RbacController extends Controller
 	}
 	
 	
-	
 	/**
      * method to add/create a new role to Db table Role, send via POST
      * @param  \Illuminate\Http\Request  $request
@@ -153,15 +147,15 @@ class RbacController extends Controller
 		
 		//validation rules
         $rules = [
-			'rname' => ['required', 'string', 'min:4' ] , 
-			'rDescr' => [ 'required', 'string', 'min:8' ] , 
+			'rname'  => ['required', 'string', 'min:4' ] , 
+			'rDescr' => ['required', 'string', 'min:8' ] , 
 			
 		];
 		
 		//creating custom error messages. Should pass it as 3rd param in Validator::make()
 		$messages = [
 			'rname.required' => 'Required.We need the name to be specified',
-			'rDescr.min' => 'Description must be at least 8 letters'
+			'rDescr.min'     => 'Description must be at least 8 letters'
 		];
 		
 		//validate the input
@@ -170,14 +164,13 @@ class RbacController extends Controller
 		//if validation fails
 		if ($validator->fails()) {
 			return redirect('/rbac')
-			->withInput()
-			->with('flashMessageFailX',"Validation Failed")
-			->withErrors($validator);
+			    ->withInput()
+			    ->with('flashMessageFailX', "Validation Failed")
+			    ->withErrors($validator);
 		
 		//if validation is OK
 		} else {  
 		    //create/insert a new role
-			
 			if (Role::where('name', $request->input('rname'))->exists()){ 	
 			    return redirect('/rbac')->with('flashMessageFailX', "Stopped. Role role <b> " . $request->input('rname')  . "</b> already exists" );
 			}
@@ -187,14 +180,10 @@ class RbacController extends Controller
 		    if($model->createNewRole($request->input('rname'), $request->input('rDescr'))){
 		        return redirect('/rbac')->with('flashMessageX', "Successfully created a new role <b> " . $request->input('rname')  . "</b>" );
             } else {
-			   return redirect('/rbac')->with('flashMessageFailX', "Failed to create a new role <b> " . $request->input('rname')  . "</b>" );
+			    return redirect('/rbac')->with('flashMessageFailX', "Failed to create a new role <b> " . $request->input('rname')  . "</b>" );
 		    }
 		   
 		}
 	}
-	
-
-	
-	
 	
 }

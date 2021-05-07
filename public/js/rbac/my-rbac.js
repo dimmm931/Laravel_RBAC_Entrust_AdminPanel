@@ -38,27 +38,23 @@ $(document).ready(function(){
 	});
 	
     
+
 	
-    //STOPPED tabbing HERE!!!!!!!!!!!
-	
-	//When Click "delete' icon to detach/delete a certain role from certain role user. Uses SWAL confirm dialogue
-	// **************************************************************************************
-    // **************************************************************************************
-    //                                                                                     ** 
-	  $(document).on("click", '.detach-role', function(e) {   // this  click  is  used  to   react  to  newly generated cicles;
-		e.preventDefault(); //prevent submit form
-		var form = $(this).parents('form'); //gets this current form //FIX
-		
-		console.log($(this).parents('form').html());
-		console.log($(this).parent().html()); //new variant 
-		
+   /*
+    |--------------------------------------------------------------------------
+    | When Click "delete' icon to detach/delete a certain role from certain role user. Uses SWAL confirm dialogue
+    | --------------------------------------------------------------------------
+    |
+    |
+    */
+	$(document).on("click", '.detach-role', function(e) {   
+	    e.preventDefault(); //prevent submit form		
+		var form        = $(this).parents('form'); //gets this current form 
 		var classNumber = $('.detach-role').index(this); //index of clicked class .detach-role, e.g 0
-		
-		var userName = this.getAttribute("data-uName"); //gets user name u want detach a role. Set in html by adding to button data-uName="{{$a->name}}". Set in \App\Http\MyHelpers\Rbac\Helper_Rbac::displayUserRoles($a, true)
-        var roleName = this.getAttribute("data-uRole"); //gets role name u want to detach. Set in html by adding to button data-uRole="{{$a->name}}" 
+		var userName    = this.getAttribute("data-uName"); //gets user name u want detach a role. Set in html by adding to button data-uName="{{$a->name}}". Set in \App\Http\MyHelpers\Rbac\Helper_Rbac::displayUserRoles($a, true)
+        var roleName    = this.getAttribute("data-uRole"); //gets role name u want to detach. Set in html by adding to button data-uRole="{{$a->name}}" 
 
-        swal({html:true, title:'Attention!', text:'User </br>  NB:Back-end validation is also available.', type: 'error'});
-
+        //swal({html:true, title:'Attention!', text:'User </br>  NB:Back-end validation is also available.', type: 'error'});
 
 		swal({
 			    html:true,
@@ -71,34 +67,23 @@ $(document).ready(function(){
                 cancelButtonText: "No, cancel it!",
                 closeOnConfirm: false,
                 closeOnCancel: false
-           },
-           function(isConfirm){
-               if (isConfirm){
+            },
+            function(isConfirm){
+                if (isConfirm){
 			       	swal({ html:true, title:'Attention!', text:'Deleting <b>here</b>....</br>  ', type: 'error'});
-                    //$(this).unbind('submit').submit();
 					//$(".detach-role").get(0).allowDefault = true;
 					//e.trigger('click');
-					 //$("form:not('#press')").submit()
-					 form.submit(); //$(".detach").eq(classNumber).submit();
-					 return true; 
-	
-                
+					form.submit(); //$(".detach").eq(classNumber).submit();
+					return true; 
 				
-               } else {
-                   swal("Cancelled", "You cancelled deleting.", "error");
-                   //e.preventDefault();
-				   return false;
-               }
-            });	     
+                } else {
+                    swal("Cancelled", "You cancelled deleting.", "error");
+                    //e.preventDefault();
+				    return false;
+                }
+        });	     
 	 
-	 	   
-	  });
-	
-    // **                                                                                  **
-    // **************************************************************************************
-    // **************************************************************************************
-	 
-	 
+	});
 	
 });
 // end ready	

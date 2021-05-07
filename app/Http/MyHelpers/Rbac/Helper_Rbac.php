@@ -38,16 +38,16 @@ class Helper_Rbac
 				//build/create a POST form with button to detaching/deleting a certain role from certain user (if 2nd arg is true)
 				if($buildDeleteButton == true){
 					$r.= '<div class="col-sm-1 col-xs-1 text-delete">';
-                    if($j == 0){ //MEGA FIX
+                    if($j == 0){ //FIX
                         $r.= '<form></form>';
                     } 					 
 					$r.= '<form class="detach" method="post" action="' . url("/detachRole") . '" >' .
-                          '<input type="hidden" value="' . csrf_token() . '" name="_token" />' .
-						  '<input type="hidden" value="' . $userModel->id . '" name="user_id" />' .
-						  '<input type="hidden" value="' . $userModel->roles[$j]['id'] . '" name="role_id" />' .
-					      '<button type="submit" class="detach-role" data-uName="' . $userModel->name . '" data-uRole="' . $userModel->roles[$j]['name'] . '"><i class="fa fa-remove"></i> </button> ' .
-                    '</form>' .
-					'</div>';
+                         '<input type="hidden" value="' . csrf_token() . '" name="_token" />' .
+						 '<input type="hidden" value="' . $userModel->id . '" name="user_id" />' .
+						 '<input type="hidden" value="' . $userModel->roles[$j]['id'] . '" name="role_id" />' .
+					     '<button type="submit" class="detach-role" data-uName="' . $userModel->name . '" data-uRole="' . $userModel->roles[$j]['name'] . '"><i class="fa fa-remove"></i> </button> ' .
+                         '</form>' .
+					     '</div>';
 				}
 			}  
 		} else { 

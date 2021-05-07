@@ -71,17 +71,13 @@ class Role extends EntrustRole
 	//for test only!!!!!!!!!!!!!!!!!!!!!!
 	public function assign() 
     {
-	   //$user = User::where('id', '=', auth()->user()->id)->first();
 	   $user = User::find(\Auth::user()->id );
-       //dd($user);
        // role attach alias
        //$user->attachRole('admin'); // parameter can be an Role object, array, or id
-	   $admin_role= self::where('name', 'admin')->get()->first();
+	   $admin_role = self::where('name', 'admin')->get()->first();
 	   $user->roles()->attach($admin_role);
 	   dd("Great");
 	}
-	
-	
 	
 	
 	
@@ -107,36 +103,21 @@ class Role extends EntrustRole
 	 * @param int $role
      * @return boolean
      */
-	public function detachSelectedRoleFromSelectedUser($userID, $roleId){
+	public function detachSelectedRoleFromSelectedUser($userID, $roleId)
+    {
 		
-		//DON"T NEED IF USE manual delete
-		$selectedUser = User::find($userID ); //$selectedUser = User::firstOrFail($userID );  //
-		
-		//DON"T NEED IF USE manual delete
-		//$selectedRole = self::where('id', $roleId)->get()->first();
+	    $selectedUser = User::find($userID ); //$selectedUser = User::firstOrFail($userID );  //
 		$selectedRole = self::where('id', $roleId)->get()->first();  //$selectedRole = self::where('id', $roleId)->get()->first(); 
-		
-
-		
-		
-		//dd($selectedRole->name);
-		//$selectedUser->detachRoles($selectedRole); //Entrust detach method, won't work, use manual delete
-		 
-	
 		
 		//manual detaching/removing a selected role from selected user as {$selectedUser->detachRoles($selectedRole) does not work} 
 		if(Role_User::where('user_id', $userID)->where('role_id', $roleId)->exists()) { 
-		   //$d = Role_User::where('user_id', $userID)->where('role_id', $roleId)/*->findOrFail()*/->delete();
-		   Role_User::where('user_id', $userID)->where('role_id', $roleId)->delete(); //Manual delete
-           return true;
+		    Role_User::where('user_id', $userID)->where('role_id', $roleId)->delete(); //Manual delete
+            return true;
 		} else {
 			return false;
 		}
 		
 	}
-	
-	
-	
 	
 	
 	
@@ -146,28 +127,21 @@ class Role extends EntrustRole
 	 * @param string $roleDescr
      * @return boolean
      */
-	public function createNewRole($roleName, $roleDescr){
-		
-		//$role = self::where('name', $roleName)->get();
-		
+	public function createNewRole($roleName, $roleDescr)
+    {		
 		
 		if (!self::where('name', $roleName)->exists()){ //if doesnot exist
-           $managerC = new Role();
-           $managerC->name = $roleName;
-           $managerC->display_name = 'custom role'; // optional
-           $managerC->description = $roleDescr; // optional
-           $managerC->save();
-		   return true;
+            $managerC = new Role();
+            $managerC->name = $roleName;
+            $managerC->display_name = 'custom role'; // optional
+            $managerC->description = $roleDescr; // optional
+            $managerC->save();
+		    return true;
 		} else {
 			return false;
 		}
 
 	}
-	
-	
-	
-	
-	
 	
 	
 }
