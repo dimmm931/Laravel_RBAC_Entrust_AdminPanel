@@ -20,11 +20,10 @@ class DatabaseSeeder extends Seeder
 		$this->call('Roles_Seeder');  //fill DB table {roles} with data {4 roles}
 		$this->call('RoleUsers_Seeder');  //fill DB table {role_user} with data {assign admin to Dima}
 		$this->command->info('Seedering action was successful!');
-    }
-	
-	
-  
+    }  
 }
+
+
 //------------------- ALL SEEDERS CLASS -----------------------------------
 
 //fill DB table {users} with data 
@@ -32,11 +31,24 @@ class Users_Seeder extends Seeder {
     public function run()
     {
         DB::table('users')->delete();  //whether to Delete old materials
-        //User::create(['email' => 'foo@bar.com']);
         DB::table('users')->insert(['id' => 1, 'name' => 'Admin', 'email' => 'admin@ukr.net',      'password' => bcrypt('adminadmin') ]);
 	    DB::table('users')->insert(['id' => 2, 'name' => 'Dima',  'email' => 'dimmm931@gmail.com', 'password' => bcrypt('dimadima') ]);
 	    DB::table('users')->insert(['id' => 3, 'name' => 'Olya',  'email' => 'olya@gmail.com',     'password' => bcrypt('olyaolya') ]);
         DB::table('users')->insert(['id' => 4, 'name' => 'Test',  'email' => 'test@gmail.com',     'password' => bcrypt('testtest') ]);
+        
+        //create regular users
+        $NUMBER_OF_REGULAR_USERS = 10;		
+        $faker = Faker::create();
+        $gender = $faker->randomElement(['male', 'female']);
+
+    	foreach (range(1, $NUMBER_OF_REGULAR_USERS) as $index) {
+            DB::table('users')->insert([
+                'name'        => $faker->name($gender),
+                'email'       => $faker->email,
+                'password'    => bcrypt('password')
+			]);
+        }
+        //
     }
 }
 
