@@ -55,7 +55,6 @@
 
 ![Screenshot](public/images/Screenshots/13.png)
 
-[Watch video presentation on Youtube]( https://youtu.be/CoS-ETa-Uto )
  
   ## Zizaco/Entrust works using 4 tables
 - <p><b> roles </b> — stores role records </p>
